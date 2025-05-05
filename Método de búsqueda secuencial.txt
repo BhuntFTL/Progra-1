@@ -1,0 +1,62 @@
+/*Método de búsqueda secuencial*/
+
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+const int TAM=15;
+using namespace std;
+
+int main(){
+	srand(time(NULL));
+	int vector[TAM], datoB=0, k=0, cont=0, j=0;
+	bool encontrado=false;
+	
+	/*Llenado del vector*/
+	for(int i=0; i<TAM; i++){
+		vector[i]=rand()%51;
+	}
+	
+	/*Mostrar contenido del vector*/
+	cout<<"Elementos del vector: "<<endl;
+	for(int i=0; i<TAM; i++){
+		cout<<vector[i]<<"\t";
+	}
+
+	/*Capturar un valor para buscar*/
+	cout<<"\nValor a localizar: ";
+	cin>>datoB;
+	
+	/*Búsqueda por existencia*/
+	for(int i=0; i<TAM; i++){
+		if(datoB==vector[i]){
+			encontrado=true;
+			break;
+		}
+	}
+	if(encontrado){
+		cout<<"Tu valor si existe"<<endl;	
+	}
+	
+	/*Búsqueda por cantidad*/
+	while(k<TAM){
+		if(vector[k]==datoB){
+			cont++;
+		}
+		k++;
+	}
+	cout<<"Total de repeticiones del valor a buscar: "<<cont<<endl;
+		
+	/*Búsqueda por posición*/
+	do{
+		if(vector[j]==datoB){
+			cout<<datoB<<"\t"<<"["<<j<<"]"<<endl;
+		}
+		j++;
+	}while(j<TAM)
+	
+}
+
+
+
+
+

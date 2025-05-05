@@ -1,0 +1,93 @@
+#include <iostream>
+#define N 10
+using namespace std;
+
+void llenarVec(int[]);
+
+float promedio(int[]);
+
+int menor(int[]);
+
+int mayor(int[]);
+
+void ordenar(int[]);
+
+void mostrar(int[]);
+
+int main(){
+    int vector[N], suma=0;
+    float prom=0;
+    llenarVec(vector);   
+    prom=promedio(vector);
+    menor=menor(vector);
+    mayor=mayor(vector);
+    ordenar(vector);
+    mostrar(vector);
+}
+
+void llenarVec(int vector[]){
+    /*Capturar valores*/
+    for (int i = 0; i < N; i++){
+        cout<<"Dame un valor: ";
+        cin>>vector[i];
+    }
+}
+
+float promedio(int vector[]){
+    /*Promedio de valores*/
+    int j=0;
+    float prom;
+    while(j<N){
+        suma+=vector[j]; /*Se suman los valores*/
+        j++;
+    }
+    prom=suma/N;
+    cout<<"La suma es: "<<suma<<endl;
+    cout<<"El promedio es: "<<prom<<endl;
+}
+
+int menor(int vector[]){
+    int k=0, menor=9999;
+    do{
+        if(vector[k]<=menor){
+            menor=vector[k];
+        }
+        k++;
+    }while(k<N);
+    cout<<"El numero menor es: "<<menor<<endl;
+
+}
+
+int mayor(int vecto[]){
+    int k=0, mayor=0;
+    do{
+        if(vector[k]>=mayor){
+            mayor=vector[k];
+        }
+        k++;
+    }while(k<N);
+    cout<<"El numero mayor es: "<<mayor<<endl;
+}
+    
+void ordenar(int vector[]){
+    /*Ordenar de forma ascendente para sacar la media (Metodo de la burnuja)*/
+    int aux, mitad;
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            if(vector[j]>vector[j+1]){
+                aux=vector[j+1];
+                vector[j+1]=vector[j];
+                vector[j]=aux;
+            }
+        }
+    }
+    mitad=N/2;
+    cout<<"La media es: "<<vector[mitad]<<endl;
+}
+
+void mostrar(int vector[]){
+    for (int i = 0; i < N; i++){
+        cout<<vector[i]<<" "<<endl;
+    }
+}
+
