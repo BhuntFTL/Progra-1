@@ -9,6 +9,7 @@ int **crearMatriz();
 void llenar(int **);
 void mostrar(int **);
 int sumatoria(int **);
+int liberar(int **);
 
 int main(){
     srand(time(NULL));
@@ -17,6 +18,8 @@ int main(){
     llenar(matriz);
     mostrar(matriz);
     cout<<"SUMA DE LA X: "<<sumatoria(matriz)<<endl;
+    liberar(matriz);
+    mostrar(matriz);
 }
 
 int **crearMatriz(){
@@ -63,4 +66,13 @@ int sumatoria(int **matriz){
         }
     }
     return suma;
+}
+
+int liberar(int** matriz){
+    //Eliminar las columnas
+    for(int i=0; i<REN; i++){
+        free(matriz[i]); //Para cada posici+on i se eliminan las columnas
+    }
+    //Eliminar las filas
+    free(matriz);
 }
