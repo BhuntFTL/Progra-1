@@ -19,30 +19,25 @@ void menu();
 Nodo capturaDatos();
 void insertarNodos(Tlista&, Nodo);
 void mostrar(Tlista);
-void eliminarPrimero(Tlista&);
-void busquedaPromedio(Tlista, int);
-void eliminarNombre(Tlista&, char[]);
-
+void contar(Tlista);
+void promedio(Tlista);
 
 int main(){
     menu();
 }
 
 void menu(){
-    int opc, promedio;
-    char nombre[25];
+    int opc;
     Nodo aux; //Aux es una estructura, no un puntero
     Tlista listaAlu=NULL; //Es un puntero de tipo nodo (struct Nodo *listaAlu)
 
     do{
         cout<<"LISTAS SIMPLES"<<endl;
         cout<<"Insertar nodos al inicio ............1"<<endl;
-        cout<<"Recorrer/mostrar ....................2"<<endl;
-        cout<<"Eliminar al inicio ..................3"<<endl;
-        cout<<"Busqueda por Promedio ...............4"<<endl;
-        cout<<"Eliminar un elemento (por nombre)....5"<<endl;
-        cout<<"Ordenar y mostrar (por promedio) ....6"<<endl;
-        cout<<"Salir ...............................7"<<endl;
+        cout<<"Mostrar .............................2"<<endl;
+        cout<<"Numero con prom de 8.5 o más ........3"<<endl;
+        cout<<"Promedio grupal .....................4"<<endl;
+        cout<<"Salir ...............................5"<<endl;
         cout<<"Tu opcion: ";
         cin>>opc;
         switch(opc){
@@ -51,20 +46,12 @@ void menu(){
                     break;
             case 2: mostrar(listaAlu);
                     break;
-            case 3: eliminarPrimero(listaAlu);
+            case 3: contar(listaAlu);
                     break;
-            case 4: cout<<"Dame el promedio de quien buscar: "<<endl;
-                    cin>>promedio;
-                    busquedaPromedio(listaAlu, promedio);
+            case 4: promedio(listaAlu);
                     break;
-            case 5: cout<<"Dame el nombre de quien eliminar: "<<endl;
-                    cin>>nombre;
-                    eliminarNombre(listaAlu, nombre);
-                    break;
-            case 6: break;
-            case 7: break;
         }
-    }while(opc!=7);
+    }while(opc!=5);
 }
 
 Nodo capturaDatos(){
@@ -96,34 +83,28 @@ void mostrar(Tlista lista){
     }
 }
 
-void eliminarPrimero(Tlista &lista){
-    Tlista temp=lista; //almacena el nodo a eliminar y hacemos que apunte a lo que apunte lista
-    if(lista!=NULL){ //Si apunta a un valor
-        lista=lista->ligaSig; //Desconecta el elemento a eliminar
-        delete temp; //Borra el elemento a eliminar
-    }else{ //No apunta a un valor
-        cout<<"Lista vacía!!!"<<endl;
-    }
-}
-
-void busquedaPromedio(Tlista lista, int promedio) {
-    while(lista!=NULL){
-        if(lista->prom==promedio){
-            cout<<"Entonctrado:"<<endl;
-            cout<<"Nombre: "<<aux->nombre<<endl;
-            cout<<"Prom: "<<aux->prom<<endl;
-        }else{
-            cout<<"No encontrado"<<endl;
-        }
-        lista=lista->ligaSig;
-    }
-}
-
-void eliminarNombre(Tlista &lista, char nombre[]){
+void contar(Tlista lista){
     Tlista aux=lista;
-    while(lista!=NULL){
-        if(strcmp(nombre, lista->nombre)){
+    int cont=0;
+    while(aux!=NULL){
+        if(aux->prom>=8.5){
+            cont++;
             
         }
+        aux=aux->ligaSig;
     }
+    cout<<"La cantidad de alumnos con promedio de 8.5 o superior es: "<<cont<<endl;
+}
+
+void promedio(Tlista lista){
+    Tlista aux=lista;
+    float suma=0, promedio=0;
+    int cont=0;
+    while(aux!=NULL){
+        suma+=(aux->prom);
+        cont++;
+        aux=aux->ligaSig;
+    }
+    promedio=suma/cont;
+    cout<<"El promedio de todo el grupo es de: "<<promedio<<endl;
 }
