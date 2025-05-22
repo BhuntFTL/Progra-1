@@ -3,7 +3,7 @@
 #include <string.h>
 using namespace std;
 
-//Declarar la estructura para al,acenar los nodos
+//Declarar la estructura para almacenar los nodos
 struct Nodo{
     char nombre[15];
     float prom;
@@ -22,7 +22,8 @@ void mostrar(Tlista);
 void eliminarPrimero(Tlista&);
 void busquedaPromedio(Tlista, int);
 void eliminarNombre(Tlista&, char[]);
-
+void ordenarPorPromedio(Tlista&);
+Tlista insertarOrdenado(Tlista, Tlista);
 
 int main(){
     menu();
@@ -40,7 +41,7 @@ void menu(){
         cout<<"Recorrer/mostrar ....................2"<<endl;
         cout<<"Eliminar al inicio ..................3"<<endl;
         cout<<"Busqueda por Promedio ...............4"<<endl;
-        cout<<"Eliminar un elemento (por nombre)....5"<<endl;
+        cout<<"Eliminar un nodo (por nombre)........5"<<endl;
         cout<<"Ordenar y mostrar (por promedio) ....6"<<endl;
         cout<<"Salir ...............................7"<<endl;
         cout<<"Tu opcion: ";
@@ -61,7 +62,9 @@ void menu(){
                     cin>>nombre;
                     eliminarNombre(listaAlu, nombre);
                     break;
-            case 6: break;
+            case 6: ordenarPorPromedio(listaAlu);
+                    mostrar(listaAlu);
+                    break;
             case 7: break;
         }
     }while(opc!=7);
@@ -106,24 +109,72 @@ void eliminarPrimero(Tlista &lista){
     }
 }
 
-void busquedaPromedio(Tlista lista, int promedio) {
+void busquedaPromedio(Tlista lista, int promedio){
+    bool encontrado = false;
     while(lista!=NULL){
         if(lista->prom==promedio){
-            cout<<"Entonctrado:"<<endl;
-            cout<<"Nombre: "<<aux->nombre<<endl;
-            cout<<"Prom: "<<aux->prom<<endl;
-        }else{
-            cout<<"No encontrado"<<endl;
+            cout<<"Encontrado:"<<endl;
+            cout<<"Nombre: "<<lista->nombre<<endl;
+            cout<<"Prom: "<<lista->prom<<endl;
+            encontrado = true;
         }
         lista=lista->ligaSig;
+    }
+    if(!encontrado){
+        cout<<"No encontrado"<<endl;
     }
 }
 
 void eliminarNombre(Tlista &lista, char nombre[]){
-    Tlista aux=lista;
-    while(lista!=NULL){
-        if(strcmp(nombre, lista->nombre)){
-            
+    Tlista actual = lista;
+    Tlista anterior = NULL;
+    
+    while(actual != NULL){
+        if(strcmp(actual->nombre, nombre) == 0){
+            if(anterior == NULL){ // Es el primer nodo
+                lista = actual->ligaSig;
+            } else {
+                anterior->ligaSig = actual->ligaSig;
+            }
+            delete actual;
+            cout<<"Nodo eliminado correctamente."<<endl;
+            return;
         }
+        anterior = actual;
+        actual = actual->ligaSig;
     }
+    cout<<"No se encontro el nombre en la lista."<<endl;
+}
+
+void ordenarPorPromedio(Tlista &lista){
+    if (lista == NULL || lista->ligaSig == NULL){
+        return;
+    }
+
+    Tlista listaOrdenada = NULL;
+    Tlista actual = lista;
+    Tlista siguiente;
+
+    while (actual != NULL){
+        siguiente = actual->ligaSig;
+        listaOrdenada = insertarOrdenado(listaOrdenada, actual);
+        actual = siguiente;
+    }
+    lista = listaOrdenada;
+}
+
+Tlista insertarOrdenado(Tlista lista, Tlista nuevoNodo){
+    if (lista == NULL || nuevoNodo->prom <= lista->prom){
+        nuevoNodo->ligaSig = lista;
+        return nuevoNodo;
+    }
+
+    Tlista actual = lista;
+    while (actual->ligaSig != NULL && actual->ligaSig->prom < nuevoNodo->prom){
+        actual = actual->ligaSig;
+    }
+
+    nuevoNodo->ligaSig = actual->ligaSig;
+    actual->ligaSig = nuevoNodo;
+    return lista;
 }
